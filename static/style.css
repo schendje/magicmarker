@@ -5,7 +5,7 @@ body {
   font-family: 'Oswald', sans-serif;
   font-size: 20px;
   margin: 0;
-  padding: 20px 0 0 0;
+  padding: 20px 0 20px 0;
   background-image:url('back.png');
 }
 
@@ -31,6 +31,7 @@ h1 {
   color: #FCFE47;
   text-decoration: none;
   display: block;
+  margin-top: 20px;
 }
 
 .container {
@@ -49,6 +50,14 @@ h1 {
 
 #input, #output {
   width: 400px;
+}
+
+input {
+  vertical-align: text-bottom;
+}
+
+label {
+  margin-right: 6px;
 }
 
 .main, .view {
