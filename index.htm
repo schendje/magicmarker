@@ -73,7 +73,7 @@ if(urlData["img"]) {
   $(document).mouseup(function(event){
     mouseDown = false;
     
-    output = "file:///home/jef/magicmarker/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
+    output = "file:///home/jef/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
     $("#output").val(output);
     $("#output").focus(function(){
       this.select();
@@ -148,8 +148,7 @@ if(urlData["img"]) {
 <input id="input" type="text" />
 <input type="submit" value="Mark!" />
 </div>
-<h2>About</h2>
-<p>A short story about <span class="logo">Magicmarker</span></p>
+<a href="http://github.com/schendje/magicmarker" class="source">▰ source code ▰</a>
 </div>
 <div class="view">
 <div class="container_output">
