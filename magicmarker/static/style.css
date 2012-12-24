@@ -34,7 +34,7 @@ h1 {
   height:100%;
 }
 
-#output {
+#input, #output {
   width: 400px;
 }
 
