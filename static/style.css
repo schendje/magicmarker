@@ -24,6 +24,7 @@ h1 {
   font-size: 20px;
   color: #FCFE47;
   text-decoration: none;
+  display: block;
 }
 
 .container {

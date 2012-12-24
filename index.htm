@@ -134,7 +134,19 @@ if(urlData["img"]) {
 
 } else {
   $(document).ready(function(){
+    mark = function() {
+       window.location = "file:///home/jef/magicmarker/index.htm?img="+$("#input").val();
+    }
+  
     $(".main").css({'display':'block'});
+    $('#submit_input').click(function() {
+      mark();
+    });
+    $('#input').keypress(function (e) {
+      if (e.which == 13) {
+        mark();
+      }
+    });
   });
 }
 
@@ -143,11 +155,9 @@ if(urlData["img"]) {
 <body>
 <div class="main">
 <h1>Magicmarker</h1>
-<div class="container_output">
 <label for="input">Mark this image:</label>
 <input id="input" type="text" />
-<input type="submit" value="Mark!" />
-</div>
+<input id="submit_input" type="submit" value="Mark!" />
 <a href="http://github.com/schendje/magicmarker" class="source">▰ source code ▰</a>
 </div>
 <div class="view">
