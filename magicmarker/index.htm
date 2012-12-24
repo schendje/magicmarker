@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Magicmarker</title>
+<link rel="stylesheet" type="text/css" href="static/style.css" />
+<link href='http://fonts.googleapis.com/css?family=Mouse+Memoirs&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+var urlData = {};
+(function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    while (match = search.exec(query))
+       urlData[decode(match[1])] = decode(match[2]);
+})();
+
+if(urlData["img"]) {
+
+  var mouseDown = false;
+
+  var image_top;
+  var image_left;
+  var image_width;
+  var image_height;
+
+  var mark_top;
+  var mark_right;
+  var mark_bottom;
+  var mark_left;
+  var mark_width;
+  var mark_height;
+
+  var output;
+
+  $(document).ready(function(){
+    $(".view").css({'display':'block'});
+    $(".image").attr("src", urlData["img"]);
+    image_top = $(".image").position().top;
+    image_left = $(".image").position().left;
+    image_width = $(".image").width();
+    image_height = $(".image").height();
+
+    $(".container").css({
+      'left':image_left,
+      'top':image_top
+    });
+      
+    $('.image').bind('dragstart', function(event) { event.preventDefault(); });
+    $('.container').bind('dragstart', function(event) { event.preventDefault(); });
+    
+    if(urlData["x1"]&&urlData["x2"]&&urlData["y1"]&&urlData["y2"]) {
+      mark_top = urlData["y1"];
+      mark_right = image_width-urlData["x2"];
+      mark_bottom = image_height-urlData["y2"];
+      mark_left = urlData["x1"];
+      mark_width = image_width-mark_left-mark_right;
+      mark_height = image_height-mark_top-mark_bottom;
+      
+      $(".container").css({
+        'opacity':0.6,
+        'border-width':mark_top+"px "+mark_right+"px "+mark_bottom+"px "+mark_left+"px",
+        width:mark_width,
+        height:mark_height
+      });
+    }
+  });
+
+  $(document).mouseup(function(event){
+    mouseDown = false;
+    
+    output = "file:///home/jef/magicmarker/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
+    $("#output").val(output);
+    $("#output").focus(function(){
+      this.select();
+  });
+    $("#output").focus();
+
+  });
+
+  $(document).mousemove(function(event) {
+    if(mouseDown == false) return;
+    
+    
+    if (event.pageX>image_left && event.pageX<(image_left+image_width) && event.pageY>image_top && event.pageY<(image_top+image_height)) {
+    if ((event.pageY-image_top)<mark_top) {
+     mark_top = event.pageY-image_top;
+    }
+    if ((image_width-event.pageX+image_left)<mark_right) {
+      mark_right = image_width-event.pageX+image_left;
+    }
+    if ((image_height-event.pageY+image_top)<mark_bottom) {
+      mark_bottom = image_height-event.pageY+image_top;
+    }
+    if ((event.pageX-image_left)<mark_left) {
+      mark_left = event.pageX-image_left;
+    }
+    mark_width = image_width-mark_left-mark_right;
+    mark_height = image_height-mark_top-mark_bottom;
+    $(".container").css({
+      'opacity':0.6,
+      'border-width':mark_top+"px "+mark_right+"px "+mark_bottom+"px "+mark_left+"px",
+      width:mark_width,
+      height:mark_height
+    });
+    }
+  });
+
+  $(document).mousedown(function(event){
+    mouseDown = true;
+    if (event.pageX>image_left && event.pageX<(image_left+image_width) && event.pageY>image_top && event.pageY<(image_top+image_height)) {
+      mark_top = event.pageY-image_top;
+      mark_right = image_width-event.pageX+image_left;
+      mark_bottom = image_height-event.pageY+image_top;
+      mark_left = event.pageX-image_left;
+      mark_width = image_width-mark_left-mark_right;
+      mark_height = image_height-mark_top-mark_bottom;
+      $(".container").css({
+        'opacity':0.6,
+        'border-width':mark_top+"px "+mark_right+"px "+mark_bottom+"px "+mark_left+"px",
+        width:mark_width,
+        height:mark_height
+      });
+    } else {
+      $(".container").css({
+        'opacity':0
+      });
+    }
+  });
+
+} else {
+  $(document).ready(function(){
+    $(".main").css({'display':'block'});
+  });
+}
+
+</script>
+</head>
+<body>
+<div class="main">
+<h1>Magicmarker</h1>
+<h2>About</h2>
+<p>A short story about <span class="logo">Magicmarker</span></p>
+</div>
+<div class="view">
+<div class="container_output">
+<label for="output">Link to this mark:</label>
+<input id="output" type="text" />
+</div>
+<img class="image" src="" />
+<div class="container">
+<div class="border"></div>
+</div>
+<div class="footer">
+<a href="index.htm" class="logo">Magicmarker</a>
+</div>
+</div>
+</body>
