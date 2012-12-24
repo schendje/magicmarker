@@ -2,22 +2,27 @@ body {
   text-align: center;
   background-color: #444;
   color: #fff;
-  font-family: 'Mouse Memoirs', sans-serif;
+font-family: 'Oswald', sans-serif;
   font-size: 32px;
   margin: 0;
   padding: 20px 0 0 0;
+  background-image:url('back.png');
 }
 
 h1 {
   font-weight: normal;
   background-color: #FCFE47;
+  background-color: rgba(252,254,71,0.9);
   color: #000;
 }
 
 .logo {
   color: #000;
   background-color: #FCFE47;
+  background-color: rgba(252,254,71,0.9);
   text-decoration: none;
+  padding: 0 4px;
+  font-size: 20px;
 }
 
 .source {
