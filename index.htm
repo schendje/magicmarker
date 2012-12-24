@@ -137,7 +137,7 @@ if(urlData["img"]) {
     mouseDown = false;
 
     //generate link to the mark, put it in output field, select output field
-    output = "file:///home/jef/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
+    output = "http://jefvanschendel.nl/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
     $("#output").val(output);
     $("#output").focus(function(){
       this.select();
