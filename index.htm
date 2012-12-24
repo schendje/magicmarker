@@ -7,10 +7,11 @@
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
+//get data from URL first
 var urlData = {};
 (function () {
     var match,
-        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        pl     = /\+/g,
         search = /([^&=]+)=?([^&]*)/g,
         decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
         query  = window.location.search.substring(1);
@@ -19,39 +20,40 @@ var urlData = {};
        urlData[decode(match[1])] = decode(match[2]);
 })();
 
+//if data contains an image, go to viewing mode
 if(urlData["img"]) {
 
+  //variables up in here
   var mouseDown = false;
-
+  
   var image_top;
   var image_left;
   var image_width;
   var image_height;
-
+  
   var mark_top;
   var mark_right;
   var mark_bottom;
   var mark_left;
   var mark_width;
   var mark_height;
-
+  
   var output;
-
+  
   $(document).ready(function(){
     $(".view").css({'display':'block'});
+    
+    //setup variables and divs and whatnot
     $(".image").attr("src", urlData["img"]);
     image_top = $(".image").position().top;
     image_left = $(".image").position().left;
     image_width = $(".image").width();
     image_height = $(".image").height();
-
     $(".container").css({
       'left':image_left,
       'top':image_top
     });
-      
-    $('.image').bind('dragstart', function(event) { event.preventDefault(); });
-    $('.container').bind('dragstart', function(event) { event.preventDefault(); });
+    
     
     if(urlData["x1"]&&urlData["x2"]&&urlData["y1"]&&urlData["y2"]) {
       mark_top = urlData["y1"];
@@ -60,7 +62,6 @@ if(urlData["img"]) {
       mark_left = urlData["x1"];
       mark_width = image_width-mark_left-mark_right;
       mark_height = image_height-mark_top-mark_bottom;
-      
       $(".container").css({
         'opacity':0.6,
         'border-width':mark_top+"px "+mark_right+"px "+mark_bottom+"px "+mark_left+"px",
@@ -68,24 +69,23 @@ if(urlData["img"]) {
         height:mark_height
       });
     }
+    
+    //prevent dragging of the image or container div
+    $('.image').bind('dragstart', function(event) { event.preventDefault(); });
+    $('.container').bind('dragstart', function(event) { event.preventDefault(); });
+    
   });
-
   $(document).mouseup(function(event){
     mouseDown = false;
-    
     output = "file:///home/jef/magicmarker/index.htm?x1="+mark_left+"&x2="+(image_width-mark_right)+"&y1="+mark_top+"&y2="+(image_height-mark_bottom)+"&img="+$(".image").attr("src");
     $("#output").val(output);
     $("#output").focus(function(){
       this.select();
-  });
+    });
     $("#output").focus();
-
   });
-
   $(document).mousemove(function(event) {
     if(mouseDown == false) return;
-    
-    
     if (event.pageX>image_left && event.pageX<(image_left+image_width) && event.pageY>image_top && event.pageY<(image_top+image_height)) {
     if ((event.pageY-image_top)<mark_top) {
      mark_top = event.pageY-image_top;
@@ -109,7 +109,6 @@ if(urlData["img"]) {
     });
     }
   });
-
   $(document).mousedown(function(event){
     mouseDown = true;
     if (event.pageX>image_left && event.pageX<(image_left+image_width) && event.pageY>image_top && event.pageY<(image_top+image_height)) {
@@ -131,14 +130,15 @@ if(urlData["img"]) {
       });
     }
   });
-
+//if there is no image, display the main page
 } else {
   $(document).ready(function(){
-    mark = function() {
-       window.location = "file:///home/jef/magicmarker/index.htm?img="+$("#input").val();
-    }
-  
     $(".main").css({'display':'block'});
+    $("#input").focus();
+    //submitting an image URL via clicking or pressing Enter goes to view mode
+    mark = function() {
+       window.location = "index.htm?img="+$("#input").val();
+    }
     $('#submit_input').click(function() {
       mark();
     });
@@ -149,7 +149,6 @@ if(urlData["img"]) {
     });
   });
 }
-
 </script>
 </head>
 <body>
